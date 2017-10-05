@@ -6,26 +6,26 @@ function sendEmail() {
   var dataRange = sheet.getRange(startRow, 1, numRows, sheet.getLastColumn());
   // Fetch values for each row in the Range.
   var data = dataRange.getValues();
-  //Logger.log(data)
+  Logger.log(data)
     
     for (i in data) {
       var row = data[i];
       var date = new Date();
-     // date.setHours(0);
-      //date.setMinutes(0);
-      //date.setSeconds(0);
-      //Logger.log(date);
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      Logger.log(date);
       var sheetDate = new Date(row[1]);
-    // Logger.log(sheetDate);
-     var Sdate = Utilities.formatDate(date,'GMT-0800','yyyy:MM:dd')
-     var SsheetDate = Utilities.formatDate(sheetDate,'GMT-0800', 'yyyy:MM:dd')
+    Logger.log(sheetDate);
+     var Sdate = Utilities.formatDate(date,'UTC-0800','yyyy:MM:dd')
+     var SsheetDate = Utilities.formatDate(sheetDate,'UTC-0800', 'yyyy:MM:dd')
          Logger.log(Sdate+' =? '+SsheetDate)
-            if (Sdate == SsheetDate){
+            if (Sdate >= SsheetDate){
               var emailAddress = row[0];  // First column
-              var message = row[1];       // Second column
+              var message = row[2];       // Second column
               var subject = "Your assigned task is due today." +message;
-              //MailApp.sendEmail(emailAddress, subject, message);
-              //Logger.log('SENT :'+emailAddress+'  '+subject+'  '+message)
+              MailApp.sendEmail(emailAddress, subject, message);
+              Logger.log('SENT :'+emailAddress+'  '+subject+'  '+message)
                 }    
     }
 }
